@@ -2,15 +2,17 @@ package ar.com.sac.observer;
 
 import java.util.ArrayList;
 
-/**
- * @author Cheppak
- *
- */
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 public class Monitor implements Observer {
 
+	final static Logger logger = LogManager.getLogger(Monitor.class);
+	
 	public int max;
 	public int min;
-	public ArrayList<Integer> history;
+	public ArrayList<Integer> history= new ArrayList<Integer>();
 	
 	private int s;
 	private int m;
@@ -23,18 +25,22 @@ public class Monitor implements Observer {
 	@Override
 	public void update(int value) {
 		// Acciones a realizar cuando el sensor "detecta" un valor.
+		logger.warn(value);
 		history.add(value);
 		if(value < min) min = value;
 		if(value > max) max = value;
-		checkDifferences();
-		checkAvg();
+		if(hasMaxMinDifferences()){
+			logger.error("");
+		}
+		if(hasMaxAvg()) {
+			
+		}
 	}
-
 	
 	/**
 	 * El valor promedio sea superior a una constante "M"
 	 */
-	private boolean checkAvg() {
+	public boolean hasMaxAvg() {
 		int sumAvg = 0;
 		for (Integer integer : history) {
 			sumAvg = sumAvg + integer;
@@ -46,9 +52,8 @@ public class Monitor implements Observer {
 	/**
 	 * La diferencia entre el valor minimo y maximo recibido sea mayor a una constante "S".
 	 */
-	private boolean checkDifferences() {
+	public boolean hasMaxMinDifferences() {
 		return Math.abs(this.max - this.min) > this.s;
-		
 	}
 
 }
