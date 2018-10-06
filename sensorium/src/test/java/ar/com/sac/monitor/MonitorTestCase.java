@@ -6,16 +6,49 @@ import junit.framework.TestCase;
 
 public class MonitorTestCase extends TestCase{
 
-	public void testShowMe() {
-		Monitor monitor = new Monitor(3,4);
-		Sensor sensor1 = new Sensor();
-		sensor1.registerObserver(monitor);
-		Sensor sensor2 = new Sensor();
-		sensor2.registerObserver(monitor);
-		Sensor sensor3 = new Sensor();
-		sensor3.registerObserver(monitor);
-		Sensor sensor4 = new Sensor();
-		sensor4.registerObserver(monitor);
+	private static final int M = 4;
+	private static final int S = 3;
+	private Monitor monitor;
+	private Sensor sensor1;
+	private Sensor sensor2; 
+	private Sensor sensor3; 
+	private Sensor sensor4; 
+	
+	@Override
+	protected void setUp() throws Exception {
+		// TODO Auto-generated method stub
+		this.monitor = new Monitor(S, M);
+		sensor1 = new Sensor();
+		sensor2 = new Sensor();
+		sensor3 = new Sensor();
+		sensor4 = new Sensor();
+		this.sensor1.registerObserver(monitor);
+		this.sensor2.registerObserver(monitor);
+		this.sensor3.registerObserver(monitor);
+		this.sensor4.registerObserver(monitor);
+	}
+	
+	// Comprobamos que el monotor nos informa que la diferencia entre valor minimo (1) y el valor maximo (10) supera a s (3)		
+	public void testMaxMinDifferences() {
+		int min = 1;
+		int max = 10;
+		sensor1.setValue(3);
+		sensor2.setValue(min);
+		sensor3.setValue(max);
+		sensor4.setValue(2);
+		assertEquals(min, monitor.getMin());
+		assertEquals(max, monitor.getMax());
+		assertTrue(monitor.hasMaxMinDifferences());
+	}
+	
+	public void testAvg() {
+		int avg = 10;
+		sensor1.setValue(avg);
+		sensor2.setValue(avg);
+		sensor3.setValue(avg);
+		sensor4.setValue(avg);
+		assertEquals(avg, monitor.getAvg());
+		assertTrue(monitor.hasMaxAvg());
 	}
 	
 }
