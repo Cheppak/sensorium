@@ -1,6 +1,6 @@
 # Resolución punto 2 | Atix Labs
 
-## Pre-requisitos
+## Requisitos
 Contar con la siguiente configuración:
 * java 8
 * maven 3
