@@ -6,7 +6,13 @@
     </Console>
   </Appenders>
   <Loggers>
-    <Logger name="ar.com.sac.observer.Monitor" level="trace" additivity="false">
+    <Logger name="ar.com.sac.observer.Monitor" level="ALL" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="ar.com.sac.subject.Sensor" level="ALL" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="ar.com.sac.CommandLineRunnerImpl" level="ALL" additivity="false">
       <AppenderRef ref="Console"/>
     </Logger>
     <Root level="error">

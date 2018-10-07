@@ -1,18 +1,17 @@
 package ar.com.sac.observer;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-public class Monitor implements Observer {
+public class Monitor extends Thread implements Observer {
 
 	final static Logger logger = LogManager.getLogger(Monitor.class);
 	
 	private int max;
 	private int min;
-	private ArrayList<Integer> history= new ArrayList<Integer>();
+	private ConcurrentLinkedQueue<Integer> history = new ConcurrentLinkedQueue<Integer>();
 	
 	private int s;
 	private int m;
@@ -25,7 +24,7 @@ public class Monitor implements Observer {
 	@Override
 	public void update(int value) {
 		// Acciones a realizar cuando el sensor "detecta" un valor.
-		logger.info("Se ingresa el valor: " + value);
+		logger.info("Se ingresa el valor [ " + value + " ]");
 		
 		if(getHistory().size() > 0 && value < getMin()) {
 			this.setMin(value);
@@ -33,16 +32,43 @@ public class Monitor implements Observer {
 		else if(getHistory().size() == 0){
 			this.setMin(value);
 		}
-			
-			
-		if(value > getMax()) setMax(value);
+		if(value > getMax()) {
+			setMax(value);
+		}
+		printQueue();
 		getHistory().add(value);
-		if(hasMaxMinDifferences()){
-			logger.error("Se ha detectado una que el valor S es mayor a la diferencia absoluta entre maximo y minimo");
+	}
+	
+	@Override
+	public void run() { 
+		logger.info("Arrancando monitor");
+		while(true) {
+			if(getHistory().isEmpty()) {
+				logger.info("Nada que procesar aun");
+			}else { 
+				logger.info("se ha procesado el valor [ " + getHistory().remove() + " ]");
+				printQueue();
+				if(hasMaxMinDifferences()){
+					logger.error("Se ha detectado una que el valor S es mayor a la diferencia absoluta entre maximo y minimo");
+				}
+				if(hasMaxAvg()) {
+					logger.error("Se ha detectado que el promedio de elementos ingresados supera a un valor M");
+				}
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				logger.error("Error de programa (sleep)");
+			}
 		}
-		if(hasMaxAvg()) {
-			logger.error("Se ha detectado que el promedio de elementos ingresados supera a un valor M");
+	}
+
+	private void printQueue() {
+		logger.info("Contenido del historico a procesar");
+		for (Integer integer : history) {
+			System.out.print(" | " +  integer );
 		}
+		System.out.println("");
 	}
 	
 	/**
@@ -85,11 +111,11 @@ public class Monitor implements Observer {
 		this.min = min;
 	}
 
-	public ArrayList<Integer> getHistory() {
+	public ConcurrentLinkedQueue<Integer> getHistory() {
 		return history;
 	}
 
-	public void setHistory(ArrayList<Integer> history) {
+	public void setHistory(ConcurrentLinkedQueue<Integer> history) {
 		this.history = history;
 	}
 

@@ -18,14 +18,10 @@ public class MonitorTestCase extends TestCase{
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
 		this.monitor = new Monitor(S, M);
-		sensor1 = new Sensor();
-		sensor2 = new Sensor();
-		sensor3 = new Sensor();
-		sensor4 = new Sensor();
-		this.sensor1.registerObserver(monitor);
-		this.sensor2.registerObserver(monitor);
-		this.sensor3.registerObserver(monitor);
-		this.sensor4.registerObserver(monitor);
+		sensor1 = new Sensor(1, monitor);
+		sensor2 = new Sensor(2, monitor);
+		sensor3 = new Sensor(3, monitor);
+		sensor4 = new Sensor(4, monitor);
 	}
 	
 	// Comprobamos que el monotor nos informa que la diferencia entre valor minimo (1) y el valor maximo (10) supera a s (3)		
@@ -41,6 +37,7 @@ public class MonitorTestCase extends TestCase{
 		assertTrue(monitor.hasMaxMinDifferences());
 	}
 	
+	// Comprobamos que el monitor nos informa que el promedio de sus elementos (10) es mayor a un valor M (4)
 	public void testAvg() {
 		int avg = 10;
 		sensor1.setValue(avg);
