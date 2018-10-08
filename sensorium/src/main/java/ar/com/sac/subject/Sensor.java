@@ -10,6 +10,11 @@ import org.apache.logging.log4j.Logger;
 import ar.com.sac.observer.Monitor;
 import ar.com.sac.observer.Observer;
 
+/**
+ * Registra los datos generados y notifica al monitor
+ * @author Cheppak
+ *
+ */
 public class Sensor extends Thread implements Subject {
 	
 	final static Logger logger = LogManager.getLogger(Sensor.class);
@@ -36,7 +41,7 @@ public class Sensor extends Thread implements Subject {
 	@Override
 	public void notifyObservers() {
 		for(Observer o : observers){
-		      o.update(this.value);
+			o.update(this.value);
 		}
 	}
 	
@@ -63,7 +68,6 @@ public class Sensor extends Thread implements Subject {
 				logger.error("Error en thread sleep");
 			}
 		}
-		
 	}
 
 	public long getId() {

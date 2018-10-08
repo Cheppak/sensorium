@@ -2,7 +2,7 @@
 <Configuration status="WARN">
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level: %msg%n%throwable}"/>
+      <PatternLayout pattern="%highlight{[%-5level] %d{HH:mm:ss.SSS} [%t] %c{1}: %msg%n%throwable}"/>
     </Console>
   </Appenders>
   <Loggers>
@@ -13,6 +13,9 @@
       <AppenderRef ref="Console"/>
     </Logger>
     <Logger name="ar.com.sac.CommandLineRunnerImpl" level="ALL" additivity="false">
+      <AppenderRef ref="Console"/>
+    </Logger>
+    <Logger name="ar.com.sac.controller.MonitorController" level="ALL" additivity="false">
       <AppenderRef ref="Console"/>
     </Logger>
     <Root level="error">

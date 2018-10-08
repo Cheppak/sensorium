@@ -17,11 +17,11 @@ public class MonitorTestCase extends TestCase{
 	@Override
 	protected void setUp() throws Exception {
 		// TODO Auto-generated method stub
-		this.monitor = new Monitor(S, M);
-		sensor1 = new Sensor(1, monitor);
-		sensor2 = new Sensor(2, monitor);
-		sensor3 = new Sensor(3, monitor);
-		sensor4 = new Sensor(4, monitor);
+		this.monitor = Monitor.getInstance(S, M);
+		sensor1 = new Sensor(1, this.monitor);
+		sensor2 = new Sensor(2, this.monitor);
+		sensor3 = new Sensor(3, this.monitor);
+		sensor4 = new Sensor(4, this.monitor);
 	}
 	
 	// Comprobamos que el monotor nos informa que la diferencia entre valor minimo (1) y el valor maximo (10) supera a s (3)		

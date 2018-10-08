@@ -21,7 +21,7 @@ public class CommandLineRunnerImpl implements CommandLineRunner{
 		
 		int s = Integer.parseInt(args[1]);
 		int m = Integer.parseInt(args[0]);
-		Monitor monitor = new Monitor(s, m);
+		Monitor monitor = Monitor.getInstance(s, m);
 		Sensor s1 = new Sensor(1, monitor);
 		Sensor s2 = new Sensor(2, monitor);
 		Sensor s3 = new Sensor(3, monitor);
